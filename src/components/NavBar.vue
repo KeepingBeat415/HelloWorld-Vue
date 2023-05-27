@@ -4,7 +4,7 @@
       <a class="navbar-brand" href="#">My Vue</a>
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li v-for="(page, index) in pages" class="nav-item" :key="index">
-          <a
+          <!-- <a
             class="nav-link"
             :class="{ active: activePage == index }"
             aria-current="page"
@@ -13,7 +13,9 @@
             @click.prevent="navLinkClick(index)"
           >
             {{ page.link.text }}
-          </a>
+          </a> -->
+          <navbar-link :page="page" :isActive="activePage === index" @click.prevent="navLinkClick(index)">
+          </navbar-link>
         </li>
       </ul>
       <from class="d-flex">
@@ -24,7 +26,15 @@
 </template>
 
 <script>
+import NavbarLink from './NavbarLink.vue';
+
 export default {
+  components: {
+    NavbarLink,
+  },
+  created() {
+    // this.getThemeSetting();
+  },
   props: ['pages', 'activePage', 'navLinkClick'],
   data() {
     return {
@@ -38,7 +48,24 @@ export default {
         theme = 'dark';
       }
       this.theme = theme;
+      this.storeThemeSetting();
+    },
+    storeThemeSetting() {
+      localStorage.setItem('theme', this.theme);
+    },
+    getThemeSetting() {
+      let theme = localStorage.getItem('theme');
+
+      if (theme) {
+        this.theme = theme;
+      }
     },
   },
 };
 </script>
+
+<style scoped>
+.emphasize {
+  text-decoration: underline !important;
+}
+</style>
