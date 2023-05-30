@@ -46,7 +46,7 @@ export default {
       theme: 'light',
     };
   },
-  method: {
+  methods: {
     changeTheme() {
       let theme = 'light';
       if (this.theme == 'light') {
